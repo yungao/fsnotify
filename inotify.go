@@ -317,7 +317,7 @@ func (e *Event) ignoreLinux(mask uint32) bool {
 
 // newEvent returns an platform-independent Event based on an inotify mask.
 func newEvent(name string, mask uint32) Event {
-	e := Event{Name: name}
+	e := Event{Name: name, IsDir: false}
 	if mask&unix.IN_CREATE == unix.IN_CREATE || mask&unix.IN_MOVED_TO == unix.IN_MOVED_TO {
 		e.Op |= Create
 	}
@@ -333,5 +333,9 @@ func newEvent(name string, mask uint32) Event {
 	if mask&unix.IN_ATTRIB == unix.IN_ATTRIB {
 		e.Op |= Chmod
 	}
+	if mask&unix.IN_ISDIR == unix.IN_ISDIR {
+		e.IsDir = true
+	}
+
 	return e
 }
