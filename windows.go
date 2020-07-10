@@ -136,6 +136,9 @@ func newEvent(name string, mask uint32) Event {
 	if mask&sysFSATTRIB == sysFSATTRIB {
 		e.Op |= Chmod
 	}
+	if mask&sysFSONLYDIR == sysFSONLYDIR {
+		e.IsDir = true
+	}
 	return e
 }
 
